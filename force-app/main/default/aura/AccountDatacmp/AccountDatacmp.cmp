@@ -7,7 +7,9 @@
      <!-- This attribute will hold the update records from data table-->
     <aura:attribute name="updatedRecord" type="Object[]" />
 	<aura:attribute name="sortBy" type="String"/>
-    <aura:attribute name="sortDirection" type="String"/>
+    <aura:attribute name="firstName" type="String"/>
+    
+    <aura:attribute name="sortDirection" type="String" default="asc"/>
     <aura:handler name="init" value="{!this}" action="{!c.fetchAccounts}"/>
     
     <lightning:datatable aura:id="accountDataTable"
@@ -20,9 +22,9 @@
                          onsort="{!c.handleSort}"
                          onsave ="{!c.onSave}"
                          />    
+     <div>
+         <lightning:input name="fName" aura:id="fName" type="String" required="true" maxlength="50" label="First Name" value="{!v.firstName}" />
+       
+        <lightning:button label="Filter" onclick="{!c.doSearch}"/>
+    </div>
 </aura:component>
-
-
-
-
-

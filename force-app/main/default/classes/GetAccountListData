@@ -20,14 +20,18 @@ return lstAccount;
     
 @AuraEnabled
  public static List < account > fetchAccount(String searchKeyWord) {
+     System.debug('Search Keyword'+searchKeyWord);
   String searchKey = searchKeyWord + '%';
   List < Account > returnList = new List < Account > ();
-  List < Account > lstOfAccount = [select id, Name, Phone, Type from account
+  List < Account > lstOfAccount = [select Id,Name,OwnerId,Website,AnnualRevenue,Phone from account
                                    where Name LIKE: searchKey LIMIT 500];
 
   for (Account acc: lstOfAccount) {
    returnList.add(acc);
+      System.debug('Account List '+returnList);
   }
   return returnList;
  }
+ 
+    
 }

@@ -29,18 +29,19 @@
         });
         $A.enqueueAction(action);
     },
-    sortData : function(component,fieldName,sortDirection){
-        var data = component.get("v.Caselist");
-        //function to return the value stored in the field
-        var key = function(a) { return a[fieldName]; }
-        var reverse = sortDirection == 'asc' ? 1: -1;
-         
-        data.sort(function(a,b){
-                var a = key(a) ? key(a) : '';
-                var b = key(b) ? key(b) : '';
-                return reverse * ((a>b) - (b>a));
-            });
-        component.set("v.Caselist",data);
+    sortData: function (cmp, fieldName, sortDirection) {
+        var fname = fieldName;
+        var data = cmp.get("v.AccountList");
+        var reverse = sortDirection !== 'asc';
+        data.sort(this.sortBy(fieldName, reverse))
+        cmp.set("v.AccountList", data);
+    },
+    sortBy: function (field, reverse) {
+        var key = function(x) {return x[field]};
+        reverse = !reverse ? 1 : -1;
+        return function (a, b) {
+            return a = key(a), b = key(b), reverse * ((a > b) - (b > a));
+        }
     },
 
     /*
@@ -64,5 +65,24 @@
         if(refreshEvent){
             refreshEvent.fire();
         }
+    },
+    
+    getData : function(cmp, actionFilter) {
+        var action = cmp.get('c.fetchAccount');
+          var keysearch = actionFilter;
+        console.log('Keyssearch' +keysearch);
+       action.setParams({
+            'searchKeyWord' : keysearch
+        });
+        action.setCallback(this, $A.getCallback(function (response) {
+            var state = response.getState();
+            if (state === "SUCCESS") {
+                cmp.set('v.AccountList', response.getReturnValue());
+            } else if (state === "ERROR") {
+                var errors = response.getError();
+                console.error(errors);
+            }
+        }));
+        $A.enqueueAction(action);
     },
 })
