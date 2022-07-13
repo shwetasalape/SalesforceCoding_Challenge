@@ -23,7 +23,7 @@
                          onsave ="{!c.onSave}"
                          />    
      <div>
-         <lightning:input name="fName" aura:id="fName" type="String" required="true" maxlength="50" label="First Name" value="{!v.firstName}" />
+         <lightning:input name="fName" aura:id="fName" type="String"  maxlength="50" label="First Name" value="{!v.firstName}" />
        
         <lightning:button label="Filter" onclick="{!c.doSearch}"/>
     </div>
