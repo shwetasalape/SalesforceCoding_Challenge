@@ -1,0 +1,28 @@
+<aura:component controller="GetAccountListData" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,force:lightningQuickAction" access="global" >
+ <div style="font-size:28px;font-weight:bold;margin-left:20px">
+	Financial Services Account Listing
+</div>   
+    <aura:attribute name="mycolumn" type="Object[]"/>
+    <aura:attribute type="Account[]" name="AccountList"/>
+     <!-- This attribute will hold the update records from data table-->
+    <aura:attribute name="updatedRecord" type="Object[]" />
+	<aura:attribute name="sortBy" type="String"/>
+    <aura:attribute name="sortDirection" type="String"/>
+    <aura:handler name="init" value="{!this}" action="{!c.fetchAccounts}"/>
+    
+    <lightning:datatable aura:id="accountDataTable"
+                         data="{!v.AccountList }" 
+                         columns="{!v.mycolumn }" 
+                         keyField="Id"
+                         hideCheckboxColumn="false" 
+                         sortedBy="{!v.sortBy}"
+                         sortedDirection="{!v.sortDirection}"
+                         onsort="{!c.handleSort}"
+                         onsave ="{!c.onSave}"
+                         />    
+</aura:component>
+
+
+
+
+

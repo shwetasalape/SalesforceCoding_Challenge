@@ -1,0 +1,33 @@
+public  class GetAccountListData {
+
+@AuraEnabled
+public static List<Account> GetAccount()
+{
+List<Account> lstAccount=[Select Id,Name,OwnerId,Website,AnnualRevenue,Phone FROM Account where Industry = 'Financial Services'];
+return lstAccount;
+} 
+    
+@AuraEnabled
+    public static boolean updateAccounts(List<Account> editedAccountList){
+        try{          
+            Database.update(editedAccountList);          
+            return true;
+        } catch(Exception e){
+            System.debug(e);
+            return false;
+        }
+    }
+    
+@AuraEnabled
+ public static List < account > fetchAccount(String searchKeyWord) {
+  String searchKey = searchKeyWord + '%';
+  List < Account > returnList = new List < Account > ();
+  List < Account > lstOfAccount = [select id, Name, Phone, Type from account
+                                   where Name LIKE: searchKey LIMIT 500];
+
+  for (Account acc: lstOfAccount) {
+   returnList.add(acc);
+  }
+  return returnList;
+ }
+}
